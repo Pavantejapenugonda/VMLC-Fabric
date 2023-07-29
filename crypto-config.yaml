@@ -1,0 +1,39 @@
+OrdererOrgs:
+
+  - Name: Orderer
+    Domain: vehiclemanagementlifecycle
+    EnableNodeOUs: true
+    Template:
+      Start: 1
+      Count: 5
+      
+
+PeerOrgs:
+  - Name: mypeer1
+    Domain: mypeer1.vehiclemanagementlifecycle
+    EnableNodeOUs: true
+    Template:
+      Start: 1
+      Count: 2
+    Users:
+      Start: 1
+      Count: 1
+
+  - Name: mypeer2
+    Domain: mypeer2.vehiclemanagementlifecycle
+    EnableNodeOUs: true
+    Template:
+      Start: 1
+      Count: 2
+    Users:
+      Count: 1
+  
+  - Name: mypeer3
+    Domain: mypeer3.vehiclemanagementlifecycle
+    EnableNodeOUs: true
+    Template:
+      Start: 1
+      Count: 2
+    Users:
+      Start: 1
+      Count: 1

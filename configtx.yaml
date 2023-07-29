@@ -1,0 +1,219 @@
+Organizations:
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+
+    - &Producer
+        Name: ProducerMSP
+        ID: ProducerMSP
+        MSPDir: crypto-config/peerOrganizations/mypeer1.vehiclemanagementlifecycle/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('ProducerMSP.admin', 'ProducerMSP.peer', 'ProducerMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('ProducerMSP.admin', 'ProducerMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('ProducerMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('ProducerMSP.peer')"
+        AnchorPeers:
+            - Host: peer1.mypeer1.vehiclemanagementlifecycle
+              Port: 7051
+
+    - &Seller
+        Name: SellerMSP
+        ID: SellerMSP
+        MSPDir: crypto-config/peerOrganizations/mypeer2.vehiclemanagementlifecycle/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('SellerMSP.admin', 'SellerMSP.peer', 'SellerMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('SellerMSP.admin', 'SellerMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('SellerMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('SellerMSP.peer')"
+
+        AnchorPeers:
+            - Host: peer1.mypeer1.vehiclemanagementlifecycle
+              Port: 9051
+
+    - &Distributor
+        Name: DistributorMSP
+        ID: DistributorMSP
+        MSPDir: crypto-config/peerOrganizations/mypeer3.vehiclemanagementlifecycle/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('DistributorMSP.admin', 'DistributorMSP.peer', 'DistributorMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('DistributorMSP.admin', 'DistributorMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('DistributorMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('DistributorMSP.peer')"
+
+        AnchorPeers:
+            - Host: peer1.mypeer3.vehiclemanagementlifecycle
+              Port: 11051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+
+    Orderer: &OrdererCapabilities
+        V2_0: true
+
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+Application: &ApplicationDefaults
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "ANY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "ANY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "ANY Endorsement"
+
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+    OrdererType: etcdraft
+    Addresses:
+        - orderer1.vehiclemanagementlifecycle:7050
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "ANY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "ANY Admins"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "ANY Endorsement"
+
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+    FourOrgsChannel:
+        Consortium: SampleConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Producer
+                - *Seller
+                - *Distributor
+                - *Org4
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+    Raft:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            OrdererType: etcdraft
+            EtcdRaft:
+                Consenters:
+                - Host: orderer1.vehiclemanagementlifecycle
+                  Port: 7050
+                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer1.vehiclemanagementlifecycle/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer1.vehiclemanagementlifecycle/tls/server.crt
+                - Host: orderer2.vehiclemanagementlifecycle
+                  Port: 7050
+                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer2.vehiclemanagementlifecycle/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer2.vehiclemanagementlifecycle/tls/server.crt
+                - Host: orderer3.vehiclemanagementlifecycle
+                  Port: 7050
+                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer3.vehiclemanagementlifecycle/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer3.vehiclemanagementlifecycle/tls/server.crt
+                - Host: orderer4.vehiclemanagementlifecycle
+                  Port: 7050
+                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer4.vehiclemanagementlifecycle/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer4.vehiclemanagementlifecycle/tls/server.crt
+                - Host: orderer5.vehiclemanagementlifecycle
+                  Port: 7050
+                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer5.vehiclemanagementlifecycle/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer5.vehiclemanagementlifecycle/tls/server.crt
+            Addresses:
+                - orderer1.vehiclemanagementlifecycle:7050
+                - orderer2.vehiclemanagementlifecycle:7050
+                - orderer3.vehiclemanagementlifecycle:7050
+                - orderer4.vehiclemanagementlifecycle:7050
+                - orderer5.vehiclemanagementlifecycle:7050
+
+            Organizations:
+            - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+            - <<: *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                - *Producer
+                - *Seller
+                - *Distributor

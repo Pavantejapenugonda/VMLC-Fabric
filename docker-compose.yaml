@@ -1,0 +1,291 @@
+version: '2'
+
+volumes:
+  orderer1.vehiclemanagementlifecycle:
+  orderer2.vehiclemanagementlifecycle:
+  orderer3.vehiclemanagementlifecycle:
+  orderer4.vehiclemanagementlifecycle:
+  orderer5.vehiclemanagementlifecycle:
+  peer1.mypeer1.vehiclemanagementlifecycle:
+  peer2.mypeer1.vehiclemanagementlifecycle:
+  peer1.mypeer2.vehiclemanagementlifecycle:
+  peer2.mypeer2.vehiclemanagementlifecycle:
+  peer1.mypeer3.vehiclemanagementlifecycle:
+  peer2.mypeer3.vehiclemanagementlifecycle:
+
+networks:
+  byfn:
+
+services:
+  orderer1.vehiclemanagementlifecycle:
+    extends:
+      file: base.yaml
+      service: orderer-base
+    container_name: orderer1.vehiclemanagementlifecycle
+    
+    
+    networks:
+    - byfn
+    volumes:
+        - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer1.vehiclemanagementlifecycle/msp:/var/hyperledger/orderer/msp
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer1.vehiclemanagementlifecycle/tls/:/var/hyperledger/orderer/tls
+        - orderer1.vehiclemanagementlifecycle:/var/hyperledger/production/orderer
+    ports:
+    - 7050:7050
+
+  orderer2.vehiclemanagementlifecycle:
+    extends:
+      file: base.yaml
+      service: orderer-base
+    container_name: orderer2.vehiclemanagementlifecycle
+    networks:
+    - byfn
+    volumes:
+        - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer2.vehiclemanagementlifecycle/msp:/var/hyperledger/orderer/msp
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer2.vehiclemanagementlifecycle/tls/:/var/hyperledger/orderer/tls
+        - orderer2.vehiclemanagementlifecycle:/var/hyperledger/production/orderer
+    ports:
+    - 8050:7050
+
+  orderer3.vehiclemanagementlifecycle:
+    extends:
+      file: base.yaml
+      service: orderer-base
+    container_name: orderer3.vehiclemanagementlifecycle
+    networks:
+    - byfn
+    volumes:
+        - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer3.vehiclemanagementlifecycle/msp:/var/hyperledger/orderer/msp
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer3.vehiclemanagementlifecycle/tls/:/var/hyperledger/orderer/tls
+        - orderer3.vehiclemanagementlifecycle:/var/hyperledger/production/orderer
+    ports:
+    - 9050:7050
+
+
+  orderer4.vehiclemanagementlifecycle:
+    extends:
+      file: base.yaml
+      service: orderer-base
+    container_name: orderer4.vehiclemanagementlifecycle
+    networks:
+    - byfn
+    volumes:
+        - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer4.vehiclemanagementlifecycle/msp:/var/hyperledger/orderer/msp
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer4.vehiclemanagementlifecycle/tls/:/var/hyperledger/orderer/tls
+        - orderer4.vehiclemanagementlifecycle:/var/hyperledger/production/orderer
+    ports:
+    - 10050:7050
+
+  orderer5.vehiclemanagementlifecycle:
+    extends:
+      file: base.yaml
+      service: orderer-base
+    container_name: orderer5.vehiclemanagementlifecycle
+    networks:
+    - byfn
+    volumes:
+        - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer5.vehiclemanagementlifecycle/msp:/var/hyperledger/orderer/msp
+        - ./crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer5.vehiclemanagementlifecycle/tls/:/var/hyperledger/orderer/tls
+        - orderer5.vehiclemanagementlifecycle:/var/hyperledger/production/orderer
+    ports:
+    - 11050:7050
+
+
+  peer1.mypeer1.vehiclemanagementlifecycle:
+    container_name: peer1.mypeer1.vehiclemanagementlifecycle
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.mypeer1.vehiclemanagementlifecycle
+      - CORE_PEER_ADDRESS=peer1.mypeer1.vehiclemanagementlifecycle:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.mypeer1.vehiclemanagementlifecycle:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.mypeer1.vehiclemanagementlifecycle:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.mypeer1.vehiclemanagementlifecycle:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+     # - FABRIC_CA_SERVER_TLS_KEYFILE=MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZ+60xQvTq/z6F/ZbQrFdf52ALHHJ2U9z/ixk2wENH3ShRANCAARLHHokC1mjzRLMaASed9a1tKJdIWkmdiVxY1Wf/Oy2xbjl6xbPeNVBf1vdP80gSDt6oJC7eOyFUkjHW8RP/7Cx_sk
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/mypeer1.vehiclemanagementlifecycle/peers/peer1.mypeer1.vehiclemanagementlifecycle/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/mypeer1.vehiclemanagementlifecycle/peers/peer1.mypeer1.vehiclemanagementlifecycle/tls:/etc/hyperledger/fabric/tls
+        - peer1.mypeer1.vehiclemanagementlifecycle:/var/hyperledger/production
+    ports:
+      - 7051:7051
+    networks:
+      - byfn
+
+  peer2.mypeer1.vehiclemanagementlifecycle:
+    container_name: peer2.mypeer1.vehiclemanagementlifecycle
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.mypeer1.vehiclemanagementlifecycle
+      - CORE_PEER_ADDRESS=peer2.mypeer1.vehiclemanagementlifecycle:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer2.mypeer1.vehiclemanagementlifecycle:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1. .vehiclemanagementlifecycle:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.mypeer1.vehiclemanagementlifecycle:8051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+     # - FABRIC_CA_SERVER_TLS_KEYFILE=MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZ+60xQvTq/z6F/ZbQrFdf52ALHHJ2U9z/ixk2wENH3ShRANCAARLHHokC1mjzRLMaASed9a1tKJdIWkmdiVxY1Wf/Oy2xbjl6xbPeNVBf1vdP80gSDt6oJC7eOyFUkjHW8RP/7Cx_sk
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/mypeer1.vehiclemanagementlifecycle/peers/peer2.mypeer1.vehiclemanagementlifecycle/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/mypeer1.vehiclemanagementlifecycle/peers/peer2.mypeer1.vehiclemanagementlifecycle/tls:/etc/hyperledger/fabric/tls
+        - peer2.mypeer1.vehiclemanagementlifecycle:/var/hyperledger/production
+    ports:
+      - 8051:8051
+    networks:
+      - byfn
+
+  peer1.mypeer2.vehiclemanagementlifecycle:
+    container_name: peer1.mypeer2.vehiclemanagementlifecycle
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.mypeer2.vehiclemanagementlifecycle
+      - CORE_PEER_ADDRESS=peer1.mypeer2.vehiclemanagementlifecycle:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.mypeer2.vehiclemanagementlifecycle:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.mypeer2.vehiclemanagementlifecycle:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.mypeer2.vehiclemanagementlifecycle:9051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+    # - FABRIC_CA_SERVER_TLS_KEYFILE=MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgbM4we9AUPQYRtNWUeHJyruyPQ3tYbCANqVl+3gVnrxmhRANCAAQleYcECttVsgtueGsduEq4kZYi3OqPmDb1YGeebpS5TKab28s5kp4bsZ56/6dfo48xyA+r59imZ+Cg1c6kjbuB_sk
+
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/mypeer2.vehiclemanagementlifecycle/peers/peer1.mypeer2.vehiclemanagementlifecycle/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/mypeer2.vehiclemanagementlifecycle/peers/peer1.mypeer2.vehiclemanagementlifecycle/tls:/etc/hyperledger/fabric/tls
+        - peer1.mypeer2.vehiclemanagementlifecycle:/var/hyperledger/production
+    ports:
+      - 9051:9051
+    networks:
+      - byfn
+
+  peer2.mypeer2.vehiclemanagementlifecycle:
+    container_name: peer2.mypeer2.vehiclemanagementlifecycle
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.mypeer2.vehiclemanagementlifecycle
+      - CORE_PEER_ADDRESS=peer2.mypeer2.vehiclemanagementlifecycle:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer2.mypeer2.vehiclemanagementlifecycle:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.mypeer2.vehiclemanagementlifecycle:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.mypeer2.vehiclemanagementlifecycle:10051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      # -FABRIC_CA_SERVER_TLS_KEYFILE=MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgbM4we9AUPQYRtNWUeHJyruyPQ3tYbCANqVl+3gVnrxmhRANCAAQleYcECttVsgtueGsduEq4kZYi3OqPmDb1YGeebpS5TKab28s5kp4bsZ56/6dfo48xyA+r59imZ+Cg1c6kjbuB_sk
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/mypeer2.vehiclemanagementlifecycle/peers/peer2.mypeer2.vehiclemanagementlifecycle/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/mypeer2.vehiclemanagementlifecycle/peers/peer2.mypeer2.vehiclemanagementlifecycle/tls:/etc/hyperledger/fabric/tls
+        - peer2.mypeer2.vehiclemanagementlifecycle:/var/hyperledger/production
+    ports:
+      - 10051:10051
+    networks:
+      - byfn
+
+  peer1.mypeer3.vehiclemanagementlifecycle:
+    container_name: peer1.mypeer3.vehiclemanagementlifecycle
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.mypeer3.vehiclemanagementlifecycle
+      - CORE_PEER_ADDRESS=peer1.mypeer3.vehiclemanagementlifecycle:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.mypeer3.vehiclemanagementlifecycle:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.mypeer3.vehiclemanagementlifecycle:12051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.mypeer3.vehiclemanagementlifecycle:11051
+      - CORE_PEER_LOCALMSPID=Org3MSP
+    #  - FABRIC_CA_SERVER_TLS_KEYFILE=MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg+a2TrePaoe23eE/9PflbQMB9acCXgSbHLJOqaxoxGSyhRANCAAQllm6tCl7QFpeB8sww+YO0NYpDyFmdFD9q2UdxJIW6/rVTfLyThGLOu8rjQifh8ouPEBR/3LTraRxjygyze2SR_sk
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/mypeer3.vehiclemanagementlifecycle/peers/peer1.mypeer3.vehiclemanagementlifecycle/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/mypeer3.vehiclemanagementlifecycle/peers/peer1.mypeer3.vehiclemanagementlifecycle/tls:/etc/hyperledger/fabric/tls
+        - peer1.mypeer3.vehiclemanagementlifecycle:/var/hyperledger/production
+    ports:
+      - 11051:11051
+    networks:
+      - byfn
+
+  peer2.mypeer3.vehiclemanagementlifecycle:
+    container_name: peer2.mypeer3.vehiclemanagementlifecycle
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.mypeer3.vehiclemanagementlifecycle
+      - CORE_PEER_ADDRESS=peer2.mypeer3.vehiclemanagementlifecycle:12051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+      - CORE_PEER_CHAINCODEADDRESS=peer2.mypeer3.vehiclemanagementlifecycle:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.mypeer3.vehiclemanagementlifecycle:11051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.mypeer3.vehiclemanagementlifecycle:12051
+      - CORE_PEER_LOCALMSPID=Org3MSP
+    #  - FABRIC_CA_SERVER_TLS_KEYFILE=MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg+a2TrePaoe23eE/9PflbQMB9acCXgSbHLJOqaxoxGSyhRANCAAQllm6tCl7QFpeB8sww+YO0NYpDyFmdFD9q2UdxJIW6/rVTfLyThGLOu8rjQifh8ouPEBR/3LTraRxjygyze2SR_sk
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/mypeer3.vehiclemanagementlifecycle/peers/peer2.mypeer3.vehiclemanagementlifecycle/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/mypeer3.vehiclemanagementlifecycle/peers/peer2.mypeer3.vehiclemanagementlifecycle/tls:/etc/hyperledger/fabric/tls
+        - peer2.mypeer3.vehiclemanagementlifecycle:/var/hyperledger/production
+    ports:
+      - 12051:12051
+    networks:
+      - byfn
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:$IMAGE_TAG
+    tty: true
+    stdin_open: true
+    environment:
+      - SYS_CHANNEL=$SYS_CHANNEL
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer1.mypeer1.vehiclemanagementlifecycle:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/mypeer1.vehiclemanagementlifecycle/peers/peer1.mypeer1.vehiclemanagementlifecycle/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/mypeer1.vehiclemanagementlifecycle/peers/peer1.mypeer1.vehiclemanagementlifecycle/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/mypeer1.vehiclemanagementlifecycle/peers/peer1.mypeer1.vehiclemanagementlifecycle/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/mypeer1.vehiclemanagementlifecycle/users/Admin@mypeer1.vehiclemanagementlifecycle/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./myscripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/myscripts/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - orderer1.vehiclemanagementlifecycle
+      - orderer2.vehiclemanagementlifecycle
+      - orderer3.vehiclemanagementlifecycle
+      - orderer4.vehiclemanagementlifecycle
+      - orderer5.vehiclemanagementlifecycle
+      - peer1.mypeer1.vehiclemanagementlifecycle
+      - peer2.mypeer1.vehiclemanagementlifecycle
+      - peer1.mypeer2.vehiclemanagementlifecycle
+      - peer2.mypeer2.vehiclemanagementlifecycle
+      - peer1.mypeer3.vehiclemanagementlifecycle
+      - peer2.mypeer3.vehiclemanagementlifecycle
+    networks:
+      - byfn
