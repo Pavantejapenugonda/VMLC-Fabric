@@ -2,10 +2,6 @@ version: '2'
 
 volumes:
   orderer1.vehiclemanagementlifecycle:
-  orderer2.vehiclemanagementlifecycle:
-  orderer3.vehiclemanagementlifecycle:
-  orderer4.vehiclemanagementlifecycle:
-  orderer5.vehiclemanagementlifecycle:
   peer1.mypeer1.vehiclemanagementlifecycle:
   peer2.mypeer1.vehiclemanagementlifecycle:
   peer1.mypeer2.vehiclemanagementlifecycle:
@@ -215,10 +211,6 @@ services:
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
       - orderer1.vehiclemanagementlifecycle
-      - orderer2.vehiclemanagementlifecycle
-      - orderer3.vehiclemanagementlifecycle
-      - orderer4.vehiclemanagementlifecycle
-      - orderer5.vehiclemanagementlifecycle
       - peer1.mypeer1.vehiclemanagementlifecycle
       - peer2.mypeer1.vehiclemanagementlifecycle
       - peer1.mypeer2.vehiclemanagementlifecycle
