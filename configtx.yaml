@@ -163,7 +163,6 @@ Profiles:
                 - *Producer
                 - *Seller
                 - *Distributor
-                - *Org4
             Capabilities:
                 <<: *ApplicationCapabilities
 
