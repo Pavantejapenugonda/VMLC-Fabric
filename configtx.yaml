@@ -180,28 +180,8 @@ Profiles:
                   Port: 7050
                   ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer1.vehiclemanagementlifecycle/tls/server.crt
                   ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer1.vehiclemanagementlifecycle/tls/server.crt
-                - Host: orderer2.vehiclemanagementlifecycle
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer2.vehiclemanagementlifecycle/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer2.vehiclemanagementlifecycle/tls/server.crt
-                - Host: orderer3.vehiclemanagementlifecycle
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer3.vehiclemanagementlifecycle/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer3.vehiclemanagementlifecycle/tls/server.crt
-                - Host: orderer4.vehiclemanagementlifecycle
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer4.vehiclemanagementlifecycle/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer4.vehiclemanagementlifecycle/tls/server.crt
-                - Host: orderer5.vehiclemanagementlifecycle
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer5.vehiclemanagementlifecycle/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/vehiclemanagementlifecycle/orderers/orderer5.vehiclemanagementlifecycle/tls/server.crt
             Addresses:
                 - orderer1.vehiclemanagementlifecycle:7050
-                - orderer2.vehiclemanagementlifecycle:7050
-                - orderer3.vehiclemanagementlifecycle:7050
-                - orderer4.vehiclemanagementlifecycle:7050
-                - orderer5.vehiclemanagementlifecycle:7050
 
             Organizations:
             - *OrdererOrg
