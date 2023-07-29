@@ -16,22 +16,23 @@ import (
 
 // Asset describes basic details of what makes up a simple asset
    type Asset struct {
-      ID             string `json:"ID"`
-      Color          string `json:"color"`
-      Size           int    `json:"size"`
-      Owner          string `json:"owner"`
+	  ID			   string `json:"ID"`
+      Make             string `json:"Make"`
+      Model            string `json:"color"`
+      Variant          int    `json:"size"`
+      Owner            string `json:"owner"`
       AppraisedValue int    `json:"appraisedValue"`
     }
 
 // InitLedger adds a base set of assets to the ledger
    func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
     assets := []Asset{
-      {ID: "asset1", Color: "blue", Size: 5, Owner: "Tomoko", AppraisedValue: 300},
-      {ID: "asset2", Color: "red", Size: 5, Owner: "Brad", AppraisedValue: 400},
-      {ID: "asset3", Color: "green", Size: 10, Owner: "Jin Soo", AppraisedValue: 500},
-      {ID: "asset4", Color: "yellow", Size: 10, Owner: "Max", AppraisedValue: 600},
-      {ID: "asset5", Color: "black", Size: 15, Owner: "Adriana", AppraisedValue: 700},
-      {ID: "asset6", Color: "white", Size: 15, Owner: "Michel", AppraisedValue: 800},
+      {ID : 1,Make: "Hyundai", Model: "i10", Variant: "HTE", Owner: "Tomoko", AppraisedValue: 50000},
+      {ID : 2,Make: "Kia", Model: "Seltos", Variant: "HTE", Owner: "Brad", AppraisedValue: 1000000},
+      {ID : 3,Make: "TATA", Model: "Tiago", Variant: "SUV", Owner: "Jin Soo", AppraisedValue: 1200000},
+      {ID : 4,Make: "Tyota", Model: "Innova", Variant: "HTE", Owner: "Max", AppraisedValue: 1500000},
+      {ID : 5,Make: "Maruthi Suzuki", Model: "Swift", Variant: "HTE", Owner: "Adriana", AppraisedValue: 1000000},
+      {ID : 6,Make: "BMW", Model: "X7", Variant: "HTE", Owner: "Michel", AppraisedValue: 10000000},
     }
 
     for _, asset := range assets {
@@ -61,8 +62,9 @@ import (
 
     asset := Asset{
       ID:             id,
-      Color:          color,
-      Size:           size,
+	  Make:			 make,
+	  Model:         model,
+	  Variant:       variant,
       Owner:          owner,
       AppraisedValue: appraisedValue,
     }
@@ -94,7 +96,7 @@ import (
   }
 
 // UpdateAsset updates an existing asset in the world state with provided parameters.
-   func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface, id string, color string, size int, owner string, appraisedValue int) error {
+   func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface, id string, make string, model string, variant string, owner string, appraisedValue int) error {
     exists, err := s.AssetExists(ctx, id)
     if err != nil {
       return err
@@ -106,8 +108,9 @@ import (
     // overwriting original asset with new asset
     asset := Asset{
       ID:             id,
-      Color:          color,
-      Size:           size,
+      Make:           make,
+      Model:          model,
+	  Variant:		  variant,
       Owner:          owner,
       AppraisedValue: appraisedValue,
     }
