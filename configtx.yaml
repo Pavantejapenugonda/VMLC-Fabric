@@ -14,44 +14,44 @@ Organizations:
                 Type: Signature
                 Rule: "OR('OrdererMSP.admin')"
 
-    - &Producer
-        Name: ProducerMSP
-        ID: ProducerMSP
+    - &ORG1
+        Name: ORG1MSP
+        ID: ORG1MSP
         MSPDir: crypto-config/peerOrganizations/mypeer1.vehiclemanagementlifecycle/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('ProducerMSP.admin', 'ProducerMSP.peer', 'ProducerMSP.client')"
+                Rule: "OR('ORG1MSP.admin', 'ORG1MSP.peer', 'ORG1MSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('ProducerMSP.admin', 'ProducerMSP.client')"
+                Rule: "OR('ORG1MSP.admin', 'ORG1MSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('ProducerMSP.admin')"
+                Rule: "OR('ORG1MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('ProducerMSP.peer')"
+                Rule: "OR('ORG1MSP.peer')"
         AnchorPeers:
             - Host: peer1.mypeer1.vehiclemanagementlifecycle
               Port: 7051
 
-    - &Seller
-        Name: SellerMSP
-        ID: SellerMSP
+    - &ORG2
+        Name: ORG2MSP
+        ID: ORG2MSP
         MSPDir: crypto-config/peerOrganizations/mypeer2.vehiclemanagementlifecycle/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('SellerMSP.admin', 'SellerMSP.peer', 'SellerMSP.client')"
+                Rule: "OR('ORG2MSP.admin', 'ORG2MSP.peer', 'ORG2MSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('SellerMSP.admin', 'SellerMSP.client')"
+                Rule: "OR('ORG2MSP.admin', 'ORG2MSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('SellerMSP.admin')"
+                Rule: "OR('ORG2MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('SellerMSP.peer')"
+                Rule: "OR('ORG2MSP.peer')"
 
         AnchorPeers:
             - Host: peer1.mypeer1.vehiclemanagementlifecycle
@@ -154,14 +154,14 @@ Channel: &ChannelDefaults
         <<: *ChannelCapabilities
 
 Profiles:
-    FourOrgsChannel:
+    TwoOrgsChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Producer
-                - *Seller
+                - *ORG1
+                - *ORG2
                 - *Distributor
             Capabilities:
                 <<: *ApplicationCapabilities
@@ -193,6 +193,6 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *Producer
-                - *Seller
+                - *ORG1
+                - *ORG2
                 - *Distributor
